@@ -1,5 +1,9 @@
 import React from 'react';
 import * as Tone from 'tone';
+import DogTag from './DogTag.jsx'
+import BGPicker from './TagBG.jsx'
+
+const BGList = ["https://images.unsplash.com/photo-1538370965046-79c0d6907d47?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxleHBsb3JlLWZlZWR8NXx8fGVufDB8fHw%3D&w=1000&q=80", 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8aGVhcnRzfGVufDB8fDB8&ixlib=rb-1.2.1&w=1000&q=80', "https://i.pinimg.com/736x/5f/64/9c/5f649c728fc328958997f3feecbf3a7c.jpg", "https://img.apmcdn.org/9d8714db45a8d7cd2dbc2e193a91681651243462/uncropped/1f6898-20141209-sunshine.jpg"]
 
 class App extends React.Component {
   constructor(props) {
@@ -14,6 +18,9 @@ class App extends React.Component {
       driverOn: false,
       driverVolume: -6,
       metronome: 60,
+      pupname: '',
+      bgList: BGList,
+      selectedBG: BGList[0]
 
     }
   }
@@ -73,6 +80,18 @@ class App extends React.Component {
     }
   }
 
+  dogNameChange(e) {
+    this.setState({
+      pupname: e.target.value
+    })
+  }
+
+  selectBG(bg) {
+    this.setState({
+      selectedBG: bg
+    })
+  }
+
   render() {
     return (
       <div>
@@ -89,6 +108,10 @@ class App extends React.Component {
           <button type="button" onClick={this.buttonTone.bind(this)}>Driver</button>
           <button type="button" onClick={this.buttonBinaural.bind(this)}>Binaural</button>
         </div>
+        <br></br>
+        <input type="text" onChange={this.dogNameChange.bind(this)}></input>
+        <DogTag name={this.state.pupname} bg={this.state.selectedBG} />
+        <BGPicker list={this.state.bgList} select={this.selectBG.bind(this)} />
       </div>
     )
   }
